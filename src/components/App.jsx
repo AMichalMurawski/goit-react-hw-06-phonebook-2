@@ -4,10 +4,32 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { ContactItem } from './ContactItem/ContactItem';
 
+const LOCAL_STORAGE_CONTACTS = 'phonebookContacts';
+
 export class App extends Component {
   state = {
     contacts: [],
     filter: '',
+  };
+
+  componentDidMount = () => {
+    try {
+      const localContacts = JSON.parse(
+        localStorage.getItem(LOCAL_STORAGE_CONTACTS)
+      );
+      this.setState({ contacts: localContacts });
+    } catch {}
+    // const localContacts = JSON.parse(
+    //   localStorage.getItem(LOCAL_STORAGE_CONTACTS)
+    // );
+    // if (localContacts) {
+    //   this.setState({ contacts: localContacts });
+    // }
+  };
+
+  componentDidUpdate = () => {
+    const { contacts } = this.state;
+    localStorage.setItem(LOCAL_STORAGE_CONTACTS, JSON.stringify(contacts));
   };
 
   handleSubmit = contact => {
