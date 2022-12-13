@@ -1,0 +1,21 @@
+.form {
+  padding-bottom: 60px;
+}
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+}
+.input {
+  width: 50%;
+  min-width: 300px;
+  padding: 10px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
