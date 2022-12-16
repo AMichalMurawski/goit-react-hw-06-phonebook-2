@@ -114,7 +114,7 @@ export class App extends Component {
           filter={filter}
           handleChange={value => this.changeFilter(value)}
         />
-        <ContactList>
+        {contacts && <ContactList>
           {contactList.map(contact => (
             <ContactItem
               key={contact.id}
@@ -122,7 +122,7 @@ export class App extends Component {
               onClick={id => this.deleteContact(id)}
             />
           ))}
-        </ContactList>
+        </ContactList>}
       </div>
     );
   }

@@ -10,6 +10,7 @@ export class Filter extends Component {
 
   render() {
     const { filter } = this.props;
+    
     return (
       <label className={css.label}>
         Find contacts by name
