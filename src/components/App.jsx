@@ -83,7 +83,7 @@ export class App extends Component {
         style={{
           margin: '0 auto',
           display: 'flex',
-          width: '50%',
+          width: '60%',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'start',
@@ -114,7 +114,7 @@ export class App extends Component {
           filter={filter}
           handleChange={value => this.changeFilter(value)}
         />
-        {contacts && <ContactList>
+        <ContactList>
           {contactList.map(contact => (
             <ContactItem
               key={contact.id}
@@ -122,7 +122,7 @@ export class App extends Component {
               onClick={id => this.deleteContact(id)}
             />
           ))}
-        </ContactList>}
+        </ContactList>
       </div>
     );
   }
