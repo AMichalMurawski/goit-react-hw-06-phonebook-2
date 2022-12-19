@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
@@ -19,12 +19,6 @@ export class App extends Component {
       );
       this.setState({ contacts: localContacts });
     } catch {}
-    // const localContacts = JSON.parse(
-    //   localStorage.getItem(LOCAL_STORAGE_CONTACTS)
-    // );
-    // if (localContacts) {
-    //   this.setState({ contacts: localContacts });
-    // }
   };
 
   componentDidUpdate = () => {
