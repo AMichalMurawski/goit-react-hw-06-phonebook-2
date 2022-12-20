@@ -1,30 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ContactItem.module.css';
 
-export class ContactItem extends Component {
-  handleClick = () => {
-    const { id } = this.props.contact;
-    this.props.onClick(id);
-  };
+export function ContactItem({ contact, ...props }) {
+  const { id, name, number } = contact;
 
-  render() {
-    const { id, name, number } = this.props.contact;
-    return (
-      <li className={css.item} key={id}>
-        <p className={css.contact}>
-          {name}: {number}
-        </p>
-        <button
-          className={css.button}
-          type="button"
-          onClick={e => this.handleClick()}
-        >
-          Delete
-        </button>
-      </li>
-    );
-  }
+  return (
+    <li className={css.item} key={id}>
+      <p className={css.contact}>
+        {name}: {number}
+      </p>
+      <button
+        className={css.button}
+        type="button"
+        onClick={e => props.onClick(id)}
+      >
+        Delete
+      </button>
+    </li>
+  );
 }
 
 ContactItem.propTypes = {

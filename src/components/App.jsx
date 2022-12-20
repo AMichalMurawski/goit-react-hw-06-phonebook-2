@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
@@ -6,28 +6,26 @@ import { ContactItem } from './ContactItem/ContactItem';
 
 const LOCAL_STORAGE_CONTACTS = 'phonebookContacts';
 
-export class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+export function App() {
+  const [contacts, setContacts] = useState(getContactsFromLocalStorage);
+  const [filter, setFilter] = useState('');
 
-  componentDidMount = () => {
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_CONTACTS, JSON.stringify(contacts));
+  });
+
+  function getContactsFromLocalStorage() {
     try {
       const localContacts = JSON.parse(
         localStorage.getItem(LOCAL_STORAGE_CONTACTS)
       );
-      this.setState({ contacts: localContacts });
-    } catch {}
-  };
+      return localContacts;
+    } catch {
+      return [];
+    }
+  }
 
-  componentDidUpdate = () => {
-    const { contacts } = this.state;
-    localStorage.setItem(LOCAL_STORAGE_CONTACTS, JSON.stringify(contacts));
-  };
-
-  handleSubmit = contact => {
-    const { contacts } = this.state;
+  function handleSubmit(contact) {
     if (
       contacts.find(
         value =>
@@ -38,28 +36,18 @@ export class App extends Component {
       alert(`${contact.name} is already in contacts.`);
       return true;
     }
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, contact],
-    }));
-  };
+    const newContacts = [...contacts, contact];
+    setContacts(newContacts);
+    localStorage.setItem(LOCAL_STORAGE_CONTACTS, JSON.stringify(newContacts));
+  }
 
-  changeFilter = value => {
-    this.setState(prevState => ({
-      filter: value,
-    }));
-  };
-
-  deleteContact = id => {
-    const { contacts } = this.state;
+  function deleteContact(id) {
     const index = contacts.findIndex(contact => contact.id === id);
     contacts.splice(index, 1);
-    this.setState(prevState => ({
-      contacts,
-    }));
-  };
+    setContacts([...contacts]);
+  }
 
-  render() {
-    const { contacts, filter } = this.state;
+  function filterContacts() {
     let contactList = [];
     if (filter.length > 0) {
       contactList = contacts.filter((contact, index, array) => {
@@ -71,53 +59,51 @@ export class App extends Component {
     } else {
       contactList = contacts;
     }
+    return contactList;
+  }
 
-    return (
-      <div
+  return (
+    <div
+      style={{
+        margin: '0 auto',
+        display: 'flex',
+        width: '60%',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'start',
+        fontSize: 40,
+        color: '#010101',
+      }}
+    >
+      <h2
         style={{
-          margin: '0 auto',
-          display: 'flex',
-          width: '60%',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'start',
-          fontSize: 40,
-          color: '#010101',
+          fontWeight: 700,
+          paddingTop: 40,
+          paddingBottom: 40,
         }}
       >
-        <h2
-          style={{
-            fontWeight: 700,
-            paddingTop: 40,
-            paddingBottom: 40,
-          }}
-        >
-          Phonebook
-        </h2>
-        <ContactForm onSubmit={values => this.handleSubmit(values)} />
-        <h2
-          style={{
-            fontWeight: 700,
-            paddingTop: 40,
-            paddingBottom: 40,
-          }}
-        >
-          Contacts{' '}
-        </h2>
-        <Filter
-          filter={filter}
-          handleChange={value => this.changeFilter(value)}
-        />
-        <ContactList>
-          {contactList.map(contact => (
-            <ContactItem
-              key={contact.id}
-              contact={contact}
-              onClick={id => this.deleteContact(id)}
-            />
-          ))}
-        </ContactList>
-      </div>
-    );
-  }
+        Phonebook
+      </h2>
+      <ContactForm onSubmit={values => handleSubmit(values)} />
+      <h2
+        style={{
+          fontWeight: 700,
+          paddingTop: 40,
+          paddingBottom: 40,
+        }}
+      >
+        Contacts{' '}
+      </h2>
+      <Filter filter={filter} handleChange={value => setFilter(value)} />
+      <ContactList>
+        {filterContacts().map(contact => (
+          <ContactItem
+            key={contact.id}
+            contact={contact}
+            onClick={id => deleteContact(id)}
+          />
+        ))}
+      </ContactList>
+    </div>
+  );
 }
