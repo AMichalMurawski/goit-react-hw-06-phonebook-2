@@ -62,6 +62,8 @@ export function App() {
     return contactList;
   }
 
+  const contactList=filterContacts()
+
   return (
     <div
       style={{
@@ -95,15 +97,15 @@ export function App() {
         Contacts{' '}
       </h2>
       <Filter filter={filter} handleChange={value => setFilter(value)} />
-      <ContactList>
-        {filterContacts().map(contact => (
+      {contactList && <ContactList>
+        {contactList.map(contact => (
           <ContactItem
             key={contact.id}
             contact={contact}
             onClick={id => deleteContact(id)}
           />
         ))}
-      </ContactList>
+      </ContactList>}
     </div>
   );
 }
