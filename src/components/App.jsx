@@ -19,7 +19,10 @@ export function App() {
       const localContacts = JSON.parse(
         localStorage.getItem(LOCAL_STORAGE_CONTACTS)
       );
-      return localContacts;
+      if (!!localContacts) {
+        return localContacts;
+      }
+      return [];
     } catch {
       return [];
     }
@@ -62,7 +65,7 @@ export function App() {
     return contactList;
   }
 
-  const contactList=filterContacts()
+  const contactList = filterContacts();
 
   return (
     <div
@@ -97,15 +100,17 @@ export function App() {
         Contacts{' '}
       </h2>
       <Filter filter={filter} handleChange={value => setFilter(value)} />
-      {contactList && <ContactList>
-        {contactList.map(contact => (
-          <ContactItem
-            key={contact.id}
-            contact={contact}
-            onClick={id => deleteContact(id)}
-          />
-        ))}
-      </ContactList>}
+      {contactList && (
+        <ContactList>
+          {contactList.map(contact => (
+            <ContactItem
+              key={contact.id}
+              contact={contact}
+              onClick={id => deleteContact(id)}
+            />
+          ))}
+        </ContactList>
+      )}
     </div>
   );
 }
