@@ -3,3 +3,32 @@
   flex-direction: column;
   padding: 30px;
 }
+.item {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  gap: 30px;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.item::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: black;
+}
+
+.button {
+  padding: 5px;
+  font-size: 14px;
+}
